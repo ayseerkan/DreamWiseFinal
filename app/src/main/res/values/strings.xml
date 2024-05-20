@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">DreamWise</string>
+    <string name="login">Login</string>
+    <string name="member">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome to DreamWise</string>
+    <string name="signup">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="forgotpassword">Forgot Password?</string>
+    <string name="terms">Terms of Service | Privacy Policy</string>
+    <string name="already">Already a member?</string>
+    <string name="haveAccount">Don\'t have an account?</string>
+    <string name="reset">Enter your email to reset your password</string>
 </resources>
