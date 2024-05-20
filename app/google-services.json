@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "225013146151",
+    "project_id": "dreamwise-69f77",
+    "storage_bucket": "dreamwise-69f77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225013146151:android:b2213b066b2baf4bce6402",
+        "android_client_info": {
+          "package_name": "com.example.dreamwise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRjohjqVp4Tm2LVJnzkUnQrKD5UoDhoms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
