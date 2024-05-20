@@ -20,6 +20,18 @@ class LoginActivity : AppCompatActivity() {
     private var errorEmail: String = "Please enter your email!"
     private var errorPassword: String = "Please enter your password!"
 
+    public override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            Log.d(TAG, "User already signed in: ${currentUser.email}")
+            val intent = Intent(this@LoginActivity, DenemeAct::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Log.d(TAG, "No user signed in")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)

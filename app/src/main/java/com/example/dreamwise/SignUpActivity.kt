@@ -19,20 +19,6 @@ class SignUpActivity : AppCompatActivity() {
     private var errorPasswordShort: String = "Password must be at least 6 characters"
     private var errorUsername: String = "Please enter an username!"
 
-
-    public override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            Log.d(TAG, "User already signed in: ${currentUser.email}")
-            val intent = Intent(this@SignUpActivity, DenemeAct::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-            Log.d(TAG, "No user signed in")
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
