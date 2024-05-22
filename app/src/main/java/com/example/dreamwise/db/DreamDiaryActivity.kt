@@ -2,11 +2,15 @@ package com.example.dreamwise
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamwise.databinding.ActivityDreamDiaryBinding
 import com.example.dreamwise.db.AddButtonActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 class DreamDiaryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDreamDiaryBinding
@@ -21,8 +25,12 @@ class DreamDiaryActivity : AppCompatActivity() {
 
         dreamDatabase = DreamDatabase.getDatabase(this)
 
-        happyDreamAdapter = DreamAdapter(emptyList())
-        nightmareAdapter = DreamAdapter(emptyList())
+        happyDreamAdapter = DreamAdapter(emptyList()) { dream ->
+            deleteDream(dream)
+        }
+        nightmareAdapter = DreamAdapter(emptyList()) { dream ->
+            deleteDream(dream)
+        }
 
         binding.category1RecyclerView.layoutManager = LinearLayoutManager(this)
         binding.category1RecyclerView.adapter = happyDreamAdapter
@@ -56,10 +64,50 @@ class DreamDiaryActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        // Gesture Detector to scroll to the bottom
+        val gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 != null && e2 != null) {
+                    if (e2.y - e1.y > 100) {
+                        // Fling down detected
+                        scrollToBottom()
+                        return true
+                    }
+                }
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+        })
+
+        // Attach the gesture detector to the RecyclerView
+        binding.category1RecyclerView.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
+        }
+        binding.category2RecyclerView.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
+        }
     }
 
     override fun onResume() {
         super.onResume()
         binding.bottomNavigationView.selectedItemId = R.id.navigation_diary
+    }
+
+    private fun deleteDream(dream: Dream) {
+        lifecycleScope.launch {
+            dreamDatabase.dreamDao().delete(dream)
+        }
+    }
+
+    private fun scrollToBottom() {
+        binding.category1RecyclerView.smoothScrollToPosition(happyDreamAdapter.itemCount - 1)
+        binding.category2RecyclerView.smoothScrollToPosition(nightmareAdapter.itemCount - 1)
     }
 }

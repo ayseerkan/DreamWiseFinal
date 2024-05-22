@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class DreamAdapter(private var dreams: List<Dream>) : RecyclerView.Adapter<DreamAdapter.DreamViewHolder>() {
+class DreamAdapter(private var dreams: List<Dream>, private val onDelete: (Dream) -> Unit) : RecyclerView.Adapter<DreamAdapter.DreamViewHolder>() {
 
     inner class DreamViewHolder(val binding: ItemDreamBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -26,6 +26,12 @@ class DreamAdapter(private var dreams: List<Dream>) : RecyclerView.Adapter<Dream
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = Date(currentDream.date)
         holder.binding.dreamDate.text = dateFormat.format(date)
+
+        holder.binding.deletebox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                onDelete(currentDream)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -35,5 +41,10 @@ class DreamAdapter(private var dreams: List<Dream>) : RecyclerView.Adapter<Dream
     fun updateDreams(newDreams: List<Dream>) {
         dreams = newDreams
         notifyDataSetChanged()
+    }
+
+    fun addDream(dream: Dream) {
+        dreams = dreams + dream
+        notifyItemInserted(dreams.size - 1)
     }
 }

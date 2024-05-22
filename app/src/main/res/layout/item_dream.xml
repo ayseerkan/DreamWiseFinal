@@ -26,6 +26,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp" />
 
+        <CheckBox
+            android:id="@+id/deletebox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
         <TextView
             android:id="@+id/dreamDate"
             android:layout_width="wrap_content"
