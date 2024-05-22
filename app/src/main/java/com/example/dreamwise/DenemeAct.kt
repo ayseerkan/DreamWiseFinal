@@ -48,12 +48,12 @@ class DenemeAct : AppCompatActivity() {
         val fragments = listOf(SweetdreamFragment(), NightmareFragment())
         val titles = listOf("Sweet Dreams", "Nightmares")
         val adapter = DreamsViewPagerAdapter(this, fragments)
-        binding.viewPager.adapter = adapter
+        //binding.viewPager.adapter = adapter
 
         // Attaching the ViewPager2 to the TabLayout
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
+        /*TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = titles[position]
-        }.attach()
+        }.attach()*/
     }
 }
 

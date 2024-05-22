@@ -1,12 +1,18 @@
 package com.example.dreamwise
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.dreamwise.databinding.ActivitySignUpBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,7 +23,7 @@ class SignUpActivity : AppCompatActivity() {
     private var errorEmail: String = "Please enter an email!"
     private var errorPassword: String = "Please enter a password!"
     private var errorPasswordShort: String = "Password must be at least 6 characters"
-    private var errorUsername: String = "Please enter an username!"
+    private var errorUsername: String = "Please enter a username!"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,7 @@ class SignUpActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         Log.d(TAG, "FirebaseAuth instance initialized")
 
-        binding.logInText.setOnClickListener(){
+        binding.logInText.setOnClickListener {
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -73,9 +79,7 @@ class SignUpActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
                     Toast.makeText(this, "Account created.", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@SignUpActivity, DenemeAct::class.java)
-                    startActivity(intent)
-                    finish()
+                    checkNotificationPermission()
                 } else {
                     val exception = task.exception
                     if (exception is FirebaseNetworkException && retries > 0) {
@@ -87,5 +91,63 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                showCustomPermissionDialog()
+            } else {
+                // Permission already granted
+                Log.d(TAG, "Notification permission already granted")
+                proceedToNextActivity()
+            }
+        } else {
+            // For versions below TIRAMISU, no need to request permission
+            Log.d(TAG, "No need to request notification permission for this Android version")
+            proceedToNextActivity()
+        }
+    }
+
+    private fun showCustomPermissionDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_permission_request, null)
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.allow_button).setOnClickListener {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.dont_allow_button).setOnClickListener {
+            dialog.dismiss()
+            // Handle the case where the user denies the permission
+            Log.d(TAG, "Notification permission denied by custom dialog")
+            proceedToNextActivity()
+        }
+
+        dialog.show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // Permission granted
+                Log.d(TAG, "Notification permission granted")
+            } else {
+                // Permission denied
+                Log.d(TAG, "Notification permission denied")
+            }
+            proceedToNextActivity()
+        }
+    }
+
+    private fun proceedToNextActivity() {
+        val intent = Intent(this@SignUpActivity, DenemeAct::class.java)
+        startActivity(intent)
+        finish()
     }
 }
