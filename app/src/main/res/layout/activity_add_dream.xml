@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter Dream Title"
             android:padding="15dp"
-            android:textSize="16sp"
+            android:textSize="17sp"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter Dream Description"
             android:padding="15dp"
-            android:textSize="16sp"
+            android:textSize="17sp"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Select Date"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <DatePicker
@@ -61,29 +61,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Select Dream Type"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
-    <RadioGroup
-        android:id="@+id/dreamTypeRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioDream"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/dreamTypeRadioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sweet Dream" />
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioNightmare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nightmare" />
-    </RadioGroup>
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioDream"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Sweet Dream"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="17sp"
+                app:buttonTint="@color/primaryDarkColor" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioNightmare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nightmare"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="17sp"
+                app:buttonTint="@color/primaryDarkColor" />
+        </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveDreamButton"
@@ -95,7 +101,7 @@
         android:backgroundTint="@color/lightpurple"
         android:minHeight="48dp"
         android:text="Save Dream"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="20sp"
         app:cornerRadius="8dp" />
 </LinearLayout>

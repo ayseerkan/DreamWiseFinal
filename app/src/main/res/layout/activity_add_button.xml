@@ -15,7 +15,7 @@
         android:backgroundTint="@color/lightpurple"
         android:strokeColor="@color/lightpurple"
         android:text="Add New Dream"
-        android:textColor="@color/secondaryTextColor"
+        android:textColor="@color/primaryDarkColor"
         android:textSize="18sp"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Sweet Dreams"
-                android:textColor="@color/secondaryTextColor"
+                android:textColor="@color/primaryDarkColor"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -51,11 +51,11 @@
                 android:id="@+id/category2Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="Nightmares"
+                android:textColor="@color/primaryDarkColor"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/secondaryTextColor"
-                android:layout_marginBottom="8dp" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category2RecyclerView"
