@@ -21,6 +21,8 @@ class AddDreamActivity : AppCompatActivity() {
 
         dreamDatabase = DreamDatabase.getDatabase(this)
 
+
+
         binding.saveDreamButton.setOnClickListener {
             val title = binding.dreamTitleEditText.text.toString()
             val description = binding.dreamDescriptionEditText.text.toString()

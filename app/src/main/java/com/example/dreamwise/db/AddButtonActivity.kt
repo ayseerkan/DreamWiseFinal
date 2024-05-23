@@ -30,27 +30,25 @@ class AddButtonActivity : AppCompatActivity() {
         binding = ActivityAddButtonBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up Add New Dream button
+        // Setup for the Add New Dream button
         binding.addNewDreamButton.setOnClickListener {
-            val intent = Intent(this, AddDreamActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AddDreamActivity::class.java))
         }
 
-        // Fetch and display JSON data
-        fetchDreamData()
+        // Setup for the Fetch JSON button
+        binding.fetchJsonButton.setOnClickListener {
+            fetchDreamData()
+        }
 
-        // Set up BottomNavigationView
-        val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        setupBottomNavigationView()
+    }
+
+    private fun setupBottomNavigationView() {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_home -> {
-                    // Stay in AddButtonActivity
-                    true
-                }
+                R.id.navigation_home -> true
                 R.id.navigation_diary -> {
-                    // Navigate to Dream Diary Activity
-                    val intent = Intent(this@AddButtonActivity, DreamDiaryActivity::class.java)
-                    startActivity(intent)
+                    navigateTo(DreamDiaryActivity::class.java)
                     true
                 }
                 R.id.navigation_logout -> {
@@ -65,38 +63,40 @@ class AddButtonActivity : AppCompatActivity() {
 
     private fun fetchDreamData() {
         val apiService = RetrofitInstance.api
-        val call = apiService.getDreams()
-        call.enqueue(object : Callback<DreamResponse> {
+        apiService.getDreams().enqueue(object : Callback<DreamResponse> {
             override fun onResponse(call: Call<DreamResponse>, response: Response<DreamResponse>) {
                 if (response.isSuccessful) {
-                    val dreamResponse = response.body()
-                    if (dreamResponse != null) {
-                        displayDreams(dreamResponse.dreams)
+                    response.body()?.let {
+                        displayDreams(it.dreams)
                     }
                 } else {
+                    Toast.makeText(applicationContext, "Failed to load dreams: ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                     Log.d("AddButtonActivity", "Response not successful: ${response.errorBody()}")
                 }
             }
 
             override fun onFailure(call: Call<DreamResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
                 Log.d("AddButtonActivity", "Error: ${t.message}")
             }
         })
     }
 
     private fun displayDreams(dreams: List<DreamData>) {
-        // Format and display all dream information
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val dreamText = dreams.joinToString(separator = "\n\n") {
-            val date = dateFormat.format(Date(it.date))
-            "Title: ${it.title}\nDescription: ${it.description}\nIs Nightmare: ${it.isNightmare}\nDate: $date"
+            "Title: ${it.title}\nDescription: ${it.description}\nIs Nightmare: ${it.isNightmare}\nDate: ${dateFormat.format(Date(it.date))}"
         }
         binding.dreamsTextView.text = dreamText
     }
-    private fun navigateToMain() {
-        val intent = Intent(this, MainActivity::class.java)
+
+    private fun navigateTo(destination: Class<*>) {
+        val intent = Intent(this, destination)
         startActivity(intent)
+    }
+
+    private fun navigateToMain() {
+        navigateTo(MainActivity::class.java)
         finish()
     }
 }

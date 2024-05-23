@@ -64,7 +64,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-
-
+    implementation ("com.google.android.material:material:1.6.1")
+    implementation ("com.airbnb.android:lottie:5.2.0")
+        // Make sure to include other necessary dependencies as well
 
 }
