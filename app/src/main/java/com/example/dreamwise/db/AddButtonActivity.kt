@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dreamwise.AddDreamActivity
-import com.example.dreamwise.ApiService
 import com.example.dreamwise.DreamData
 import com.example.dreamwise.DreamDiaryActivity
 import com.example.dreamwise.DreamResponse
