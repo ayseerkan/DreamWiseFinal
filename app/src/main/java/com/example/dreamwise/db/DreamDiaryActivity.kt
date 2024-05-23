@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dreamwise.databinding.ActivityDreamDiaryBinding
 import com.example.dreamwise.db.AddButtonActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class DreamDiaryActivity : AppCompatActivity() {
@@ -61,6 +62,11 @@ class DreamDiaryActivity : AppCompatActivity() {
                     // Stay in DreamDiaryActivity
                     true
                 }
+                R.id.navigation_logout -> {
+                    FirebaseAuth.getInstance().signOut()
+                    navigateToMain()
+                    true
+                }
                 else -> false
             }
         }
@@ -109,5 +115,11 @@ class DreamDiaryActivity : AppCompatActivity() {
     private fun scrollToBottom() {
         binding.category1RecyclerView.smoothScrollToPosition(happyDreamAdapter.itemCount - 1)
         binding.category2RecyclerView.smoothScrollToPosition(nightmareAdapter.itemCount - 1)
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

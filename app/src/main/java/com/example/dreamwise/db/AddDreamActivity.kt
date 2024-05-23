@@ -1,10 +1,12 @@
 package com.example.dreamwise
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.dreamwise.databinding.ActivityAddDreamBinding
+import com.example.dreamwise.db.AddButtonActivity
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -44,7 +46,8 @@ class AddDreamActivity : AppCompatActivity() {
                 try {
                     dreamDatabase.dreamDao().insert(dream)
                     Toast.makeText(this@AddDreamActivity, "Dream saved successfully", Toast.LENGTH_SHORT).show()
-                    finish()
+                    intent = Intent(this@AddDreamActivity, DreamDiaryActivity::class.java)
+                    startActivity(intent)
                 } catch (e: Exception) {
                     Toast.makeText(this@AddDreamActivity, "Failed to save dream", Toast.LENGTH_SHORT).show()
                 }

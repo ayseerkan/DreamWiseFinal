@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Log.d(TAG, "signInWithEmail:success")
                         Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@LoginActivity, DreamDiaryActivity::class.java)
+                        val intent = Intent(this@LoginActivity, AddButtonActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
